@@ -54,8 +54,6 @@ class HeuristicsDashboard:
         def on_button_click(b):
             self.get_selected_heuristics()
             self.display_selected_heuristics()
-            self.engine.board.show()
-            self.run_game_simulation()
 
         show_button = widgets.Button(description="Utilizar as heurísticas selecionadas", layout=widgets.Layout(width='250px', height='40px'), button_style='info')
         show_button.on_click(on_button_click)
@@ -65,14 +63,6 @@ class HeuristicsDashboard:
         """ Exibe as heurísticas selecionadas no console. """
         print("Heurísticas Selecionadas para Cabras:", self.selected_goat_heuristics)
         print("Heurísticas Selecionadas para Tigres:", self.selected_tiger_heuristics)
-
-    def run_game_simulation(self):
-        """ Roda a simulação do jogo até que haja um vencedor. """
-        while not self.engine.board.winner:
-            self.engine.make_best_move()
-            self.engine.board.show()
-        print(f"Vencedor: {self.engine.board.winner}")
-
 
 # Inicialização das heurísticas
 goat_heuristics_list = [
