@@ -83,7 +83,3 @@ tiger_heuristics_list = [
     "Evitar Encurralamento",
     "Atacar em Grupo"
 ]
-
-# Criação do dashboard de heurísticas
-dashboard = HeuristicsDashboard(goat_heuristics_list, tiger_heuristics_list)
-dashboard.display_dashboard()
