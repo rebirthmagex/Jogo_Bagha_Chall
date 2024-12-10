@@ -20,8 +20,6 @@ from collections import deque
 import ipywidgets as widgets
 from IPython.display import display, clear_output
 
-from engine import Engine
-
 class HeuristicsDashboard:
     def __init__(self, goat_heuristics_list, tiger_heuristics_list, width='500px'):
         """ Inicializa o dashboard com as listas de heurísticas para cabras e tigres. """
@@ -30,7 +28,6 @@ class HeuristicsDashboard:
         self.output = widgets.Output()
         self.selected_goat_heuristics = []
         self.selected_tiger_heuristics = []
-        self.engine = Engine(self.selected_goat_heuristics, self.selected_tiger_heuristics)
 
     def create_heuristics(self, description_list, width='500px'):
         """ Cria checkboxes para cada heurística. """
@@ -43,11 +40,19 @@ class HeuristicsDashboard:
 
     def create_dashboard(self):
         """ Cria o layout do dashboard com as heurísticas. """
-        goat_label = widgets.Label(value="Selecione as Heurísticas para Cabras:")
-        tiger_label = widgets.Label(value="Selecione as Heurísticas para Tigres:")
-        goat_column = widgets.VBox([goat_label] + list(self.goat_heuristics.values()))
-        tiger_column = widgets.VBox([tiger_label] + list(self.tiger_heuristics.values()))
-        return widgets.HBox([goat_column, tiger_column])
+        columns = []
+
+        if self.goat_heuristics:  # Verifica se há heurísticas para cabras
+            goat_label = widgets.Label(value="Selecione as Heurísticas para as Cabras:")
+            goat_column = widgets.VBox([goat_label] + list(self.goat_heuristics.values()))
+            columns.append(goat_column)
+
+        if self.tiger_heuristics:  # Verifica se há heurísticas para tigres
+            tiger_label = widgets.Label(value="Selecione as Heurísticas para os Tigres:")
+            tiger_column = widgets.VBox([tiger_label] + list(self.tiger_heuristics.values()))
+            columns.append(tiger_column)
+
+        return widgets.HBox(columns)
 
     def display_dashboard(self):
         """ Exibe o dashboard e trata a lógica do clique no botão. """
@@ -61,25 +66,5 @@ class HeuristicsDashboard:
 
     def display_selected_heuristics(self):
         """ Exibe as heurísticas selecionadas no console. """
-        print("Heurísticas Selecionadas para Cabras:", self.selected_goat_heuristics)
-        print("Heurísticas Selecionadas para Tigres:", self.selected_tiger_heuristics)
-
-# Inicialização das heurísticas
-goat_heuristics_list = [
-    "Maximizar a Oportunidade de Movimentos",
-    "Maximizar a Oportunidade de Espaços Fechados",
-    "Minimizar Capturas",
-    "Maximizar Proteção",
-    "Posicionar no Centro",
-    "Evitar Diagonais"
-]
-
-tiger_heuristics_list = [
-    "Maximizar a Oportunidade de Movimentos",
-    "Maximizar a Mobilidade dos Tigres",
-    "Maximizar a Morte das Cabras",
-    "Maximizar Capturas",
-    "Ocupar Linhas Importantes",
-    "Evitar Encurralamento",
-    "Atacar em Grupo"
-]
+        print("Heurísticas Selecionadas para as Cabras:", self.selected_goat_heuristics)
+        print("Heurísticas Selecionadas para os Tigres:", self.selected_tiger_heuristics)
