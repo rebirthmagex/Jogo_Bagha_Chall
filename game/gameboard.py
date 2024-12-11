@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1AzBBJPMzYse12xoUllfq1LG3pSy8J6Gn
 """
 
-import pygame, os, subprocess
+import pygame, os, requests
 
 from _jogo import * # para usar os nossos métodos do pygame
 
@@ -26,35 +26,27 @@ class GameBoard:
     self.screen = pygame.display.set_mode((jogo.largura,jogo.altura))
     pygame.display.set_caption('Game: Bagha-Chall') # título do jogo (no console)
 
-  def install_fonte(self):
+  def install_font(self):
 
-        try:
-            # Baixa a fonte "League Spartan" do Google Fonts
-            subprocess.run(
-                [
-                    "wget",
-                    "https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf",
-                    "-O",
-                    "/usr/share/fonts/truetype/LeagueSpartan.ttf",
-                ],
-                check=True,
-            )
+    # Faça o download da fonte "League Spartan" do Google Fonts
+    #!wget https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf -O /usr/share/fonts/truetype/LeagueSpartan.ttf
 
-            # Atualiza o cache de fontes
-            subprocess.run(["fc-cache", "-fv"], check=True)
+    # Atualize o cache de fontes
+    #!fc-cache -fv
 
-            # Verifica se a fonte foi instalada corretamente
-            result = subprocess.run(
-                ["fc-list", "|", "grep", "LeagueSpartan"],
-                check=True,
-                text=True,
-                capture_output=True,
-                shell=True,
-            )
-            print("Fonte instalada com sucesso:\n", result.stdout)
+    # Verifique se a fonte foi instalada corretamente
+    #!fc-list | grep "LeagueSpartan"
 
-        except subprocess.CalledProcessError as e:
-            print("Erro ao instalar a fonte:", e)
+    font_url = "https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf"
+    local_path = "/usr/share/fonts/truetype/LeagueSpartan.ttf"
+    
+    if not os.path.exists(local_path):
+        response = requests.get(font_url)
+        with open(local_path, "wb") as f:
+            f.write(response.content)
+        print("Fonte baixada com sucesso para:", local_path)
+    else:
+        print("Fonte já existe:", local_path)
 
   def game_layout(self):
     # desenha o fundo
