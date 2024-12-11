@@ -11,15 +11,6 @@ import pygame, os
 
 from _jogo import * # para usar os nossos métodos do pygame
 
-# Faça o download da fonte "League Spartan" do Google Fonts
-!wget https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf -O /usr/share/fonts/truetype/LeagueSpartan.ttf
-
-# Atualize o cache de fontes
-!fc-cache -fv
-
-# Verifique se a fonte foi instalada corretamente
-!fc-list | grep "LeagueSpartan"
-
 class GameBoard:
   def __init__(self):
 
@@ -34,6 +25,17 @@ class GameBoard:
     jogo.largura,jogo.altura=600,600
     self.screen = pygame.display.set_mode((jogo.largura,jogo.altura))
     pygame.display.set_caption('Game: Bagha-Chall') # título do jogo (no console)
+
+  def install_fonte():
+
+    # Faça o download da fonte "League Spartan" do Google Fonts
+    !wget https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf -O /usr/share/fonts/truetype/LeagueSpartan.ttf
+
+    # Atualize o cache de fontes
+    !fc-cache -fv
+
+    # Verifique se a fonte foi instalada corretamente
+    !fc-list | grep "LeagueSpartan"
 
   def game_layout(self):
     # desenha o fundo
