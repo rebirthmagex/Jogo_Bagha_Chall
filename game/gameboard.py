@@ -28,14 +28,33 @@ class GameBoard:
 
   def install_fonte(self):
 
-    # Faça o download da fonte "League Spartan" do Google Fonts
-    !wget https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf -O /usr/share/fonts/truetype/LeagueSpartan.ttf
+        try:
+            # Baixa a fonte "League Spartan" do Google Fonts
+            subprocess.run(
+                [
+                    "wget",
+                    "https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf",
+                    "-O",
+                    "/usr/share/fonts/truetype/LeagueSpartan.ttf",
+                ],
+                check=True,
+            )
 
-    # Atualize o cache de fontes
-    !fc-cache -fv
+            # Atualiza o cache de fontes
+            subprocess.run(["fc-cache", "-fv"], check=True)
 
-    # Verifique se a fonte foi instalada corretamente
-    !fc-list | grep "LeagueSpartan"
+            # Verifica se a fonte foi instalada corretamente
+            result = subprocess.run(
+                ["fc-list", "|", "grep", "LeagueSpartan"],
+                check=True,
+                text=True,
+                capture_output=True,
+                shell=True,
+            )
+            print("Fonte instalada com sucesso:\n", result.stdout)
+
+        except subprocess.CalledProcessError as e:
+            print("Erro ao instalar a fonte:", e)
 
   def game_layout(self):
     # desenha o fundo
