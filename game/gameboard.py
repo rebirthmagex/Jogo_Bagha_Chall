@@ -26,7 +26,7 @@ class GameBoard:
     self.screen = pygame.display.set_mode((jogo.largura,jogo.altura))
     pygame.display.set_caption('Game: Bagha-Chall') # título do jogo (no console)
 
-  def install_fonte():
+  def install_fonte(self):
 
     # Faça o download da fonte "League Spartan" do Google Fonts
     !wget https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf -O /usr/share/fonts/truetype/LeagueSpartan.ttf
