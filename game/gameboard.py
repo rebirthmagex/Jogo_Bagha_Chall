@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1AzBBJPMzYse12xoUllfq1LG3pSy8J6Gn
 """
 
-import pygame, os, requests
+import pygame, os, wget, requests
 
 from _jogo import * # para usar os nossos métodos do pygame
 
@@ -37,16 +37,23 @@ class GameBoard:
     # Verifique se a fonte foi instalada corretamente
     #!fc-list | grep "LeagueSpartan"
 
+    # URL da fonte
     font_url = "https://github.com/google/fonts/raw/main/ofl/leaguespartan/LeagueSpartan[wght].ttf"
-    local_path = "/usr/share/fonts/truetype/LeagueSpartan.ttf"
-    
-    if not os.path.exists(local_path):
-        response = requests.get(font_url)
-        with open(local_path, "wb") as f:
-            f.write(response.content)
-        print("Fonte baixada com sucesso para:", local_path)
-    else:
-        print("Fonte já existe:", local_path)
+    save_path = "/usr/share/fonts/truetype/LeagueSpartan.ttf"
+
+    # Cria o diretório, se necessário
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+    # Faz o download da fonte
+    print("Baixando a fonte League Spartan...")
+    wget.download(font_url, save_path)
+    print("\nFonte baixada com sucesso para:", save_path)
+
+    # Atualiza o cache de fontes
+    os.system("fc-cache -fv")
+
+    # Verifica se a fonte foi instalada corretamente
+    os.system("fc-list | grep 'LeagueSpartan'")
 
   def game_layout(self):
     # desenha o fundo
