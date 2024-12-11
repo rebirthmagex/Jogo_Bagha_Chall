@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1AzBBJPMzYse12xoUllfq1LG3pSy8J6Gn
 """
 
-import pygame, os, 
+import pygame, os 
 
 print("Instalando módulo wget...")
 os.system("pip install wget")
