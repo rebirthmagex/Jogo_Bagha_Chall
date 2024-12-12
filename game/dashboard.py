@@ -20,7 +20,7 @@ from collections import deque
 import ipywidgets as widgets
 from IPython.display import display, clear_output
 
-import threading
+import time
 
 class HeuristicsDashboard:
     def __init__(self, goat_heuristics_list, tiger_heuristics_list, width='500px'):
@@ -30,7 +30,7 @@ class HeuristicsDashboard:
         self.output = widgets.Output()
         self.selected_goat_heuristics = []
         self.selected_tiger_heuristics = []
-        self.ready = threading.Event()  # Cria um evento para sincronização
+        self.ready = False # Cria um evento para sincronização
 
     def create_heuristics(self, description_list, width='500px'):
         """ Cria checkboxes para cada heurística. """
@@ -62,14 +62,11 @@ class HeuristicsDashboard:
         def on_button_click(b):
             self.get_selected_heuristics()
             self.display_selected_heuristics()
-            self.ready.set()  # Sinaliza que o botão foi clicado
+            self.ready = True  # Sinaliza que o botão foi clicado
 
         show_button = widgets.Button(description="Utilizar as heurísticas selecionadas", layout=widgets.Layout(width='250px', height='40px'), button_style='info')
         show_button.on_click(on_button_click)
         display(self.create_dashboard(), show_button)
-
-        print("Aguardando o clique no botão...")
-        self.ready.wait()  # Bloqueia até que o evento seja acionado
 
     def display_selected_heuristics(self):
         """ Exibe as heurísticas selecionadas no console. """
